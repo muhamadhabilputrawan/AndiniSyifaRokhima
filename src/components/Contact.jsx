@@ -142,20 +142,24 @@ function ContactForm() {
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
           access_key: '00415f26-e2ab-4bf0-939d-8b381ff2f8af',
+          from_name: form.name,
           name: form.name,
           email: form.email,
           message: form.message,
           subject: `Pesan dari ${form.name} — Portofolio Andini`,
+          redirect: false,
         }),
       });
       const data = await res.json();
-      if (data.success) {
+      if (res.ok && data.success) {
         setStatus('sent');
         setForm({ name: '', email: '', message: '' });
       } else {
+        console.error('Web3Forms error:', data);
         setStatus('error');
       }
-    } catch {
+    } catch (err) {
+      console.error('Fetch error:', err);
       setStatus('error');
     }
   };
