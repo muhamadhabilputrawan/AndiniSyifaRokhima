@@ -141,7 +141,7 @@ function ContactForm() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({
-          access_key: '00415f26-e2ab-4bf0-939d-8b381ff2f8af',
+          access_key: '5d970e06-beca-4977-973a-fd452f6654db',
           from_name: form.name,
           name: form.name,
           email: form.email,
@@ -155,20 +155,10 @@ function ContactForm() {
         setStatus('sent');
         setForm({ name: '', email: '', message: '' });
       } else {
-        // Fallback: buka mailto jika Web3Forms gagal
-        const subject = encodeURIComponent(`Pesan dari ${form.name} — Portofolio Andini`);
-        const body    = encodeURIComponent(`Nama: ${form.name}\nEmail: ${form.email}\n\nPesan:\n${form.message}`);
-        window.open(`mailto:andini.syifa02@gmail.com?subject=${subject}&body=${body}`, '_blank');
-        setStatus('sent');
-        setForm({ name: '', email: '', message: '' });
+        setStatus('error');
       }
     } catch {
-      // Fallback: buka mailto jika network error
-      const subject = encodeURIComponent(`Pesan dari ${form.name} — Portofolio Andini`);
-      const body    = encodeURIComponent(`Nama: ${form.name}\nEmail: ${form.email}\n\nPesan:\n${form.message}`);
-      window.open(`mailto:andini.syifa02@gmail.com?subject=${subject}&body=${body}`, '_blank');
-      setStatus('sent');
-      setForm({ name: '', email: '', message: '' });
+      setStatus('error');
     }
   };
 
