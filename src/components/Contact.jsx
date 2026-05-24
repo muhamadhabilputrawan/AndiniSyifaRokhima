@@ -155,9 +155,12 @@ function ContactForm() {
         setStatus('sent');
         setForm({ name: '', email: '', message: '' });
       } else {
+        // Tampilkan pesan error asli dari Web3Forms di console
+        console.error('Web3Forms response:', res.status, JSON.stringify(data));
         setStatus('error');
       }
-    } catch {
+    } catch (err) {
+      console.error('Network error:', err.message);
       setStatus('error');
     }
   };
