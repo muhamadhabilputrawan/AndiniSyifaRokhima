@@ -155,12 +155,20 @@ function ContactForm() {
         setStatus('sent');
         setForm({ name: '', email: '', message: '' });
       } else {
-        console.error('Web3Forms error:', data);
-        setStatus('error');
+        // Fallback: buka mailto jika Web3Forms gagal
+        const subject = encodeURIComponent(`Pesan dari ${form.name} — Portofolio Andini`);
+        const body    = encodeURIComponent(`Nama: ${form.name}\nEmail: ${form.email}\n\nPesan:\n${form.message}`);
+        window.open(`mailto:andini.syifa02@gmail.com?subject=${subject}&body=${body}`, '_blank');
+        setStatus('sent');
+        setForm({ name: '', email: '', message: '' });
       }
-    } catch (err) {
-      console.error('Fetch error:', err);
-      setStatus('error');
+    } catch {
+      // Fallback: buka mailto jika network error
+      const subject = encodeURIComponent(`Pesan dari ${form.name} — Portofolio Andini`);
+      const body    = encodeURIComponent(`Nama: ${form.name}\nEmail: ${form.email}\n\nPesan:\n${form.message}`);
+      window.open(`mailto:andini.syifa02@gmail.com?subject=${subject}&body=${body}`, '_blank');
+      setStatus('sent');
+      setForm({ name: '', email: '', message: '' });
     }
   };
 
@@ -228,7 +236,7 @@ function ContactForm() {
               initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0 }}
               className="text-[14px] font-semibold text-gold"
             >
-              Pesan berhasil terkirim!
+              Pesan terkirim!
             </motion.p>
           )}
           {status === 'error' && (
