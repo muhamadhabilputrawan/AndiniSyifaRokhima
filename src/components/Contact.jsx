@@ -148,6 +148,7 @@ function ContactForm() {
           message: form.message,
           subject: `Pesan dari ${form.name} — Portofolio Andini`,
           redirect: false,
+          botcheck: '',
         }),
       });
       const data = await res.json();
@@ -155,7 +156,6 @@ function ContactForm() {
         setStatus('sent');
         setForm({ name: '', email: '', message: '' });
       } else {
-        // Tampilkan pesan error asli dari Web3Forms di console
         console.error('Web3Forms response:', res.status, JSON.stringify(data));
         setStatus('error');
       }
