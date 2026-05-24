@@ -3,6 +3,7 @@ import { motion, useInView } from 'framer-motion';
 import { skills } from '../data/portfolioData';
 
 const hardSkills = skills.filter(s => s.category === 'Hard Skill');
+const softwareSkills = skills.filter(s => s.category === 'Software');
 const softSkills = skills.filter(s => s.category === 'Soft Skill');
 
 function SkillCard({ skill, index, globalIndex }) {
@@ -116,6 +117,23 @@ export default function Skills() {
         {/* Divider */}
         <motion.div
           initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          className="my-10 h-px bg-white/8"
+        />
+
+        {/* Software */}
+        <SkillGroup
+          title="Software"
+          subtitle="Penguasaan Aplikasi"
+          items={softwareSkills}
+          startIndex={hardSkills.length}
+          inView={inView}
+          delayBase={0.5}
+        />
+
+        {/* Divider */}
+        <motion.div
+          initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}}
           transition={{ duration: 0.5, delay: 0.5 }}
           className="my-10 h-px bg-white/8"
         />
@@ -125,9 +143,9 @@ export default function Skills() {
           title="Soft Skills"
           subtitle="Kemampuan Interpersonal"
           items={softSkills}
-          startIndex={hardSkills.length}
+          startIndex={hardSkills.length + softwareSkills.length}
           inView={inView}
-          delayBase={0.4}
+          delayBase={0.6}
         />
       </div>
     </section>
