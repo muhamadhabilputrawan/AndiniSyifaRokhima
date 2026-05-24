@@ -277,9 +277,7 @@ export default function Hero() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.65, delay: 1.5 }}
           >
-            <span className="text-[9px] font-bold tracking-[0.3em] uppercase text-gold/60">Siswi</span>
-            <span className="text-[13px] font-bold text-cream/80 tracking-wide">{personalInfo.school}</span>
-            <span className="text-[11px] font-medium text-cream/45 tracking-wider">Jurusan MPLB</span>
+    
           </motion.div>
 
           {/* Number counter — kanan atas */}

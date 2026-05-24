@@ -2,44 +2,80 @@ import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { skills } from '../data/portfolioData';
 
-function SkillCard({ skill, index }) {
-  const ref   = useRef(null);
-  const inView = useInView(ref, { once: true, margin: '-60px' });
+const hardSkills = skills.filter(s => s.category === 'Hard Skill');
+const softSkills = skills.filter(s => s.category === 'Soft Skill');
+
+function SkillCard({ skill, index, globalIndex }) {
+  const ref    = useRef(null);
+  const inView = useInView(ref, { once: true, margin: '-50px' });
 
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 20 }} animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.5, delay: index * 0.07 }}
-      className="group border border-white/8 hover:border-gold/50 bg-dark2 hover:bg-dark3 transition-all duration-300 p-5 sm:p-7 flex flex-col gap-4 sm:gap-5 cursor-default">
+      initial={{ opacity: 0, y: 24 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.5, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
+      className="group border border-white/8 hover:border-gold/50 bg-dark2 hover:bg-dark3 transition-all duration-300 p-5 sm:p-6 flex flex-col gap-4 cursor-default">
 
       {/* Icon + number */}
       <div className="flex items-start justify-between">
-        <span className="text-3xl sm:text-4xl">{skill.icon}</span>
-        <span className="label-tag text-[10px] sm:text-[11px]">{String(index + 1).padStart(2, '0')}</span>
+        <span className="text-3xl">{skill.icon}</span>
+        <span className="label-tag text-[10px]">{String(globalIndex + 1).padStart(2, '0')}</span>
       </div>
 
-      {/* Name */}
-      <div className="flex flex-col gap-2 sm:gap-3">
-        <h3 className="text-[14px] sm:text-[17px] font-black uppercase tracking-wide text-cream group-hover:text-gold transition-colors leading-snug">
+      {/* Name + description */}
+      <div className="flex flex-col gap-2 flex-1">
+        <h3 className="text-[14px] sm:text-[16px] font-black uppercase tracking-wide text-cream group-hover:text-gold transition-colors leading-snug">
           {skill.name}
         </h3>
-        {/* Description */}
-        <p className="text-[12px] sm:text-[14px] font-medium leading-relaxed" style={{ color: 'rgba(245,240,232,0.82)' }}>
+        <p className="text-[12px] sm:text-[13px] font-medium leading-relaxed" style={{ color: 'rgba(245,240,232,0.75)' }}>
           {skill.description}
         </p>
       </div>
 
-      {/* Category */}
-      <div className="mt-auto pt-3 border-t border-white/10">
-        <span className="label-tag text-[10px] sm:text-[11px]">{skill.category}</span>
+      {/* Category badge */}
+      <div className="pt-3 border-t border-white/10">
+        <span className={`text-[10px] font-black tracking-[0.22em] uppercase px-2.5 py-1 ${
+          skill.category === 'Hard Skill'
+            ? 'bg-sky-950 text-sky-300 border border-sky-700'
+            : 'bg-amber-950 text-amber-300 border border-amber-700'
+        }`}>
+          {skill.category}
+        </span>
       </div>
     </motion.div>
   );
 }
 
+function SkillGroup({ title, subtitle, items, startIndex, inView, delayBase = 0 }) {
+  return (
+    <div>
+      {/* Group header */}
+      <motion.div
+        initial={{ opacity: 0, x: -20 }}
+        animate={inView ? { opacity: 1, x: 0 } : {}}
+        transition={{ duration: 0.6, delay: delayBase }}
+        className="flex items-center gap-4 mb-6">
+        <div className="flex flex-col gap-1">
+          <span className="text-[10px] font-black tracking-[0.3em] uppercase text-gold/60">{subtitle}</span>
+          <h3 className="text-[18px] sm:text-[22px] font-black uppercase tracking-wide text-cream">{title}</h3>
+        </div>
+        <div className="flex-1 h-px bg-white/8" />
+        <span className="label-tag text-[10px]">{items.length} Skills</span>
+      </motion.div>
+
+      {/* Cards grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-white/5">
+        {items.map((skill, i) => (
+          <SkillCard key={skill.id} skill={skill} index={i} globalIndex={startIndex + i} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function Skills() {
-  const ref   = useRef(null);
+  const ref    = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-100px' });
 
   return (
@@ -50,6 +86,8 @@ export default function Skills() {
       </div>
 
       <div className="site-px py-16 lg:py-24">
+
+        {/* Section heading */}
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16">
           <motion.h2
             initial={{ opacity: 0, y: 40 }} animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -65,11 +103,32 @@ export default function Skills() {
           </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-px bg-white/5">
-          {skills.map((skill, i) => (
-            <SkillCard key={skill.id} skill={skill} index={i} />
-          ))}
-        </div>
+        {/* Hard Skills */}
+        <SkillGroup
+          title="Hard Skills"
+          subtitle="Keahlian Teknis"
+          items={hardSkills}
+          startIndex={0}
+          inView={inView}
+          delayBase={0.2}
+        />
+
+        {/* Divider */}
+        <motion.div
+          initial={{ opacity: 0 }} animate={inView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.5, delay: 0.5 }}
+          className="my-10 h-px bg-white/8"
+        />
+
+        {/* Soft Skills */}
+        <SkillGroup
+          title="Soft Skills"
+          subtitle="Kemampuan Interpersonal"
+          items={softSkills}
+          startIndex={hardSkills.length}
+          inView={inView}
+          delayBase={0.4}
+        />
       </div>
     </section>
   );

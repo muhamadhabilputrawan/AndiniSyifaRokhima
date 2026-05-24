@@ -8,9 +8,9 @@ const expMeta = {
   3: { badge: 'KBOF',  bg: 'bg-rose-950',    text: 'text-rose-300',    border: 'border-rose-700'  },
   4: { badge: 'TIK',   bg: 'bg-cyan-950',    text: 'text-cyan-300',    border: 'border-cyan-700'  },
   5: { badge: 'SILAT', bg: 'bg-red-950',     text: 'text-red-300',     border: 'border-red-700'   },
-  6: { badge: 'OSIS',  bg: 'bg-emerald-950', text: 'text-emerald-300', border: 'border-emerald-700'},
-  7: { badge: 'OSIS',  bg: 'bg-amber-950',   text: 'text-amber-300',   border: 'border-amber-700' },
-  8: { badge: 'FORUM', bg: 'bg-indigo-950',  text: 'text-indigo-300',  border: 'border-indigo-700'},
+  6: { badge: 'FORUM', bg: 'bg-indigo-950',  text: 'text-indigo-300',  border: 'border-indigo-700'},
+  7: { badge: 'OSIS',  bg: 'bg-emerald-950', text: 'text-emerald-300', border: 'border-emerald-700'},
+  9: { badge: 'FORUM', bg: 'bg-indigo-950',  text: 'text-indigo-300',  border: 'border-indigo-700'},
 };
 
 function ExpCard({ exp, index }) {

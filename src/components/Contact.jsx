@@ -6,7 +6,7 @@ const contacts = [
   {
     label: 'Email',
     value: personalInfo.email,
-    // href: `mailt`,
+    href: `mailto:${personalInfo.email}`,
     icon: (
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.5} className="w-5 h-5">
         <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
@@ -124,21 +124,40 @@ function FloatingField({ type = 'text', name, label, value, onChange, required, 
   );
 }
 
-/* ── Contact Form ── */
+/* ── Contact Form — Web3Forms ── */
 function ContactForm() {
   const [form,   setForm]   = useState({ name: '', email: '', message: '' });
-  const [status, setStatus] = useState('idle'); // idle | sending | sent
+  const [status, setStatus] = useState('idle'); // idle | sending | sent | error
 
   const handleChange = e => setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
     if (!form.name || !form.email || !form.message) return;
     setStatus('sending');
-    const subject = encodeURIComponent(`Pesan dari ${form.name} — Portofolio`);
-    const body    = encodeURIComponent(`Nama: ${form.name}\nEmail: ${form.email}\n\nPesan:\n${form.message}`);
-    window.location.href = `mailto:${personalInfo.email}?subject=${subject}&body=${body}`;
-    setTimeout(() => { setStatus('sent'); setForm({ name: '', email: '', message: '' }); }, 800);
+
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          access_key: '00415f26-e2ab-4bf0-939d-8b381ff2f8af',
+          name: form.name,
+          email: form.email,
+          message: form.message,
+          subject: `Pesan dari ${form.name} — Portofolio Andini`,
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setStatus('sent');
+        setForm({ name: '', email: '', message: '' });
+      } else {
+        setStatus('error');
+      }
+    } catch {
+      setStatus('error');
+    }
   };
 
   return (
@@ -161,13 +180,13 @@ function ContactForm() {
       <div className="mt-10 flex items-center gap-5">
         <motion.button
           type="submit"
-          disabled={status !== 'idle'}
+          disabled={status === 'sending' || status === 'sent'}
           className="btn-primary disabled:opacity-40 disabled:cursor-not-allowed"
-          whileHover={{ scale: status === 'idle' ? 1.02 : 1 }}
-          whileTap={{ scale: status === 'idle' ? 0.97 : 1 }}
+          whileHover={{ scale: status === 'idle' || status === 'error' ? 1.02 : 1 }}
+          whileTap={{ scale: status === 'idle' || status === 'error' ? 0.97 : 1 }}
         >
           <AnimatePresence mode="wait">
-            {status === 'idle' && (
+            {(status === 'idle' || status === 'error') && (
               <motion.span key="idle" className="flex items-center gap-3"
                 initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }}>
                 Kirim Pesan
@@ -184,7 +203,7 @@ function ContactForm() {
                   transition={{ duration: 0.8, repeat: Infinity, ease: 'linear' }}
                   className="inline-block w-4 h-4 border-2 border-dark/30 border-t-dark rounded-full"
                 />
-                Membuka Email...
+                Mengirim...
               </motion.span>
             )}
             {status === 'sent' && (
@@ -203,9 +222,17 @@ function ContactForm() {
           {status === 'sent' && (
             <motion.p
               initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0 }}
-              className="text-[15px] font-semibold text-gold"
+              className="text-[14px] font-semibold text-gold"
             >
-              Email client Anda telah terbuka.
+              Pesan berhasil terkirim!
+            </motion.p>
+          )}
+          {status === 'error' && (
+            <motion.p
+              initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0 }}
+              className="text-[14px] font-semibold text-red-400"
+            >
+              Gagal mengirim. Coba lagi.
             </motion.p>
           )}
         </AnimatePresence>

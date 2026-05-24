@@ -89,17 +89,16 @@ export default function About() {
                 style={{ objectPosition: '50% 20%' }} />
               <div className="absolute inset-0 bg-gradient-to-t from-dark/75 to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-7">
-                <div className="label-tag mb-2">{personalInfo.major}</div>
-                <div className="text-cream font-black text-[20px] uppercase tracking-wide">{personalInfo.name}</div>
+                {/* <div className="label-tag mb-2">{personalInfo.major}</div> */}
+                {/* <div className="text-cream font-black text-[20px] uppercase tracking-wide">{personalInfo.name}</div> */}
               </div>
             </div>
-            <motion.div
+            {/* <motion.div
               initial={{ opacity: 0, x: 20 }} animate={inView ? { opacity: 1, x: 0 } : {}}
               transition={{ delay: 0.7 }}
               className="absolute -right-4 top-12 bg-dark3 border border-white/15 p-5">
-              <div className="label-tag mb-2">Kelas</div>
-              <div className="text-cream text-[16px] font-black uppercase tracking-wide">MPLB</div>
-            </motion.div>
+              
+            </motion.div> */}
           </div>
         </motion.div>
       </div>
