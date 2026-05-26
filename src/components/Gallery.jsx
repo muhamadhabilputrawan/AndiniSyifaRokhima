@@ -5,9 +5,9 @@ import { galleryImages } from '../data/portfolioData';
 // Import semua foto kegiatan dari assets
 import imgKegiatan1 from '../assets/kegiatan/kegiatan1.jpg';
 import imgKegiatan2 from '../assets/kegiatan/kegiatan2.jpg';
+import imgKegiatan3 from '../assets/kegiatan/kegiatan3.jpg';
 import imgKegiatan4 from '../assets/kegiatan/kegiatan4.jpg';
 import imgKegiatan6 from '../assets/kegiatan/kegiatan6.jpg';
-import imgKegiatan7 from '../assets/kegiatan/kegiatan7.jpg';
 import imgKegiatan8 from '../assets/kegiatan/kegiatan8.jpg';
 import imgKegiatan9 from '../assets/kegiatan/kegiatan9.jpg';
 import imgKegiatan10 from '../assets/kegiatan/kegiatan10.JPG';
@@ -15,9 +15,9 @@ import imgKegiatan10 from '../assets/kegiatan/kegiatan10.JPG';
 const kegiatanImages = {
   kegiatan1: imgKegiatan1,
   kegiatan2: imgKegiatan2,
+  kegiatan3: imgKegiatan3,
   kegiatan4: imgKegiatan4,
   kegiatan6: imgKegiatan6,
-  kegiatan7: imgKegiatan7,
   kegiatan8: imgKegiatan8,
   kegiatan9: imgKegiatan9,
   kegiatan10: imgKegiatan10,

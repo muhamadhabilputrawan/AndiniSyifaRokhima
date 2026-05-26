@@ -296,9 +296,9 @@ export const galleryImages = [
   },
   {
     id: 5,
-    imageKey: "kegiatan7",
-    alt: "Juara Pencak Silat",
-    caption: "Juara Pencak Silat",
+    imageKey: "kegiatan3",
+    alt: "Penghargaan Lomba Silat",
+    caption: "Penghargaan Lomba Silat",
   },
   {
     id: 6,
