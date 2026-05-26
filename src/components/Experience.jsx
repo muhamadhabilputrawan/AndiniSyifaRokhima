@@ -4,8 +4,8 @@ import { experiences } from '../data/portfolioData';
 
 const expMeta = {
   1: { badge: 'TEFA',  bg: 'bg-sky-950',     text: 'text-sky-300',     border: 'border-sky-700'   },
-  2: { badge: 'CBT',   bg: 'bg-violet-950',  text: 'text-violet-300',  border: 'border-violet-700'},
-  3: { badge: 'TEFA',  bg: 'bg-rose-950',    text: 'text-rose-300',    border: 'border-rose-700'  },
+  2: { badge: 'Tefa',   bg: 'bg-violet-950',  text: 'text-violet-300',  border: 'border-violet-700'},
+  3: { badge: 'CBT',  bg: 'bg-rose-950',    text: 'text-rose-300',    border: 'border-rose-700'  },
   4: { badge: 'KBOF',   bg: 'bg-cyan-950',    text: 'text-cyan-300',    border: 'border-cyan-700'  },
   5: { badge: 'TIK', bg: 'bg-red-950',     text: 'text-red-300',     border: 'border-red-700'   },
   6: { badge: 'DISpora', bg: 'bg-indigo-950',  text: 'text-indigo-300',  border: 'border-indigo-700'},
