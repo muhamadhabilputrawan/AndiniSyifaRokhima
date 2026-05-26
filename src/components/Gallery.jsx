@@ -8,6 +8,7 @@ import imgKegiatan2 from '../assets/kegiatan/kegiatan2.jpg';
 import imgKegiatan3 from '../assets/kegiatan/kegiatan3.jpg';
 import imgKegiatan4 from '../assets/kegiatan/kegiatan4.jpg';
 import imgKegiatan6 from '../assets/kegiatan/kegiatan6.jpg';
+import imgKegiatan7 from '../assets/kegiatan/kegiatan7.jpg';
 import imgKegiatan8 from '../assets/kegiatan/kegiatan8.jpg';
 import imgKegiatan9 from '../assets/kegiatan/kegiatan9.jpg';
 import imgKegiatan10 from '../assets/kegiatan/kegiatan10.JPG';
@@ -18,6 +19,7 @@ const kegiatanImages = {
   kegiatan3: imgKegiatan3,
   kegiatan4: imgKegiatan4,
   kegiatan6: imgKegiatan6,
+  kegiatan7: imgKegiatan7,
   kegiatan8: imgKegiatan8,
   kegiatan9: imgKegiatan9,
   kegiatan10: imgKegiatan10,
@@ -57,7 +59,7 @@ function Lightbox({ image, onClose, onPrev, onNext }) {
   );
 }
 
-function GalleryItem({ image, index, onClick, isFeature }) {
+function GalleryItem({ image, index, onClick }) {
   const ref    = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-40px' });
   const imgSrc = kegiatanImages[image.imageKey];
@@ -115,13 +117,11 @@ export default function Gallery() {
           </motion.p>
         </div>
 
-        {/* Grid layout: foto pertama feature (lebar penuh), sisanya 3 kolom */}
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-px bg-white/5">
+        {/* Grid layout: 3 kolom rata, semua foto aspect-square */}
+        <div className="grid grid-cols-3 gap-px bg-white/5">
           {galleryImages.map((img, i) => (
-            <div
-              key={img.id}
-              className={`${i === 0 ? 'col-span-2 md:col-span-3 aspect-[21/9]' : 'aspect-square'}`}>
-              <GalleryItem image={img} index={i} onClick={setSelected} isFeature={i === 0} />
+            <div key={img.id} className="aspect-square">
+              <GalleryItem image={img} index={i} onClick={setSelected} />
             </div>
           ))}
         </div>

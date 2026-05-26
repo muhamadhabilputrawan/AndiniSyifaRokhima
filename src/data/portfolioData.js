@@ -318,4 +318,10 @@ export const galleryImages = [
     alt: "Serah Jabatan Pengurus OSIS",
     caption: "Serah Jabatan Pengurus OSIS",
   },
+   {
+    id: 9,
+    imageKey: "kegiatan7",
+    alt: "EVent CPOM",
+    caption: "Aktivitas OSIS CPOM",
+  },
 ];
