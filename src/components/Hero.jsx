@@ -91,11 +91,7 @@ export default function Hero() {
         {/* ── LEFT PANEL ── */}
         <div className="relative flex flex-col justify-between px-16 xl:px-24 py-10 z-10">
 
-          {/* Subtle noise texture overlay */}
-          <div
-            className="absolute inset-0 pointer-events-none opacity-[0.03]"
-            style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'n\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23n)\'/%3E%3C/svg%3E")' }}
-          />
+          
 
           {/* TOP — label bar */}
           <motion.div
@@ -112,7 +108,7 @@ export default function Hero() {
                 transition={{ duration: 0.6, delay: 0.4 }}
                 style={{ transformOrigin: 'left' }}
               />
-              <span className="label-tag text-[12px]">Portofolio — 2026</span>
+              <span className="label-tag text-[12px]">Portofolio Digital</span>
             </div>
             <span className="label-tag text-[12px] opacity-60">{personalInfo.major}</span>
           </motion.div>
@@ -145,16 +141,16 @@ export default function Hero() {
               ))}
             </div>
 
-            {/* Horizontal rule with year */}
+            {/* Elegant accent line */}
             <motion.div
-              className="flex items-center gap-4"
+              className="relative flex items-center"
               initial={{ opacity: 0, scaleX: 0 }}
               animate={{ opacity: 1, scaleX: 1 }}
               transition={{ duration: 0.8, delay: 1.1 }}
               style={{ transformOrigin: 'left' }}
             >
-              <div className="flex-1 h-px bg-white/10" />
-              <span className="text-[11px] font-bold tracking-[0.3em] uppercase text-white/25">2026</span>
+              <div className="w-16 h-[2px] bg-gold" />
+              <div className="flex-1 h-px bg-white/12" />
             </motion.div>
           </div>
 
@@ -280,16 +276,7 @@ export default function Hero() {
     
           </motion.div>
 
-          {/* Number counter — kanan atas */}
-          <motion.div
-            className="absolute top-10 right-8 z-10 flex flex-col items-end gap-1"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.6, delay: 1.3 }}
-          >
-            <span className="text-[9px] font-bold tracking-[0.3em] uppercase text-white/20">Angkatan</span>
-            <span className="text-[28px] font-black text-white/15 leading-none tracking-tight">2026</span>
-          </motion.div>
+
         </div>
       </div>
 
@@ -323,7 +310,7 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.3 }}
         >
-          <span className="label-tag text-[10px]">Portofolio — 2026</span>
+          <span className="label-tag text-[10px]">Portofolio Digital</span>
           <span className="label-tag text-[10px] opacity-60">{personalInfo.major}</span>
         </motion.div>
 
@@ -358,11 +345,14 @@ export default function Hero() {
 
           {/* Divider */}
           <motion.div
-            className="h-px bg-white/15 mb-5"
+            className="flex items-center mb-5"
             initial={{ scaleX: 0 }}
             animate={{ scaleX: 1 }}
             transition={{ duration: 0.7, delay: 1.0, transformOrigin: 'left' }}
-          />
+          >
+            <div className="w-12 h-[2px] bg-gold" />
+            <div className="flex-1 h-px bg-white/15" />
+          </motion.div>
 
           {/* Tagline */}
           <FadeUp delay={1.0}>

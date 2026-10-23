@@ -16,7 +16,7 @@ export default function Navbar() {
 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 60);
-    window.addEventListener('scroll', fn);
+    window.addEventListener('scroll', fn, { passive: true });
     return () => window.removeEventListener('scroll', fn);
   }, []);
 
@@ -33,13 +33,13 @@ export default function Navbar() {
         }`}
       >
         <div className="site-px flex items-center justify-between h-16 md:h-20">
-          {/* Logo */}
+          {/* Logo / Personal Wordmark */}
           <a href="#hero" onClick={e => { e.preventDefault(); go('#hero'); }}
-            className="flex items-center gap-3 group">
-            <div className="w-8 h-8 rounded-full border border-gold/50 flex items-center justify-center group-hover:border-gold transition-colors">
-              <span className="text-gold text-[11px] font-black tracking-wider">AS</span>
-            </div>
-            <span className="text-cream text-[13px] font-bold uppercase tracking-[0.2em]">Andini Syifa</span>
+            className="flex items-center gap-2.5 group py-1">
+            <span className="w-2 h-2 rounded-full bg-gold group-hover:scale-125 transition-transform duration-300 flex-shrink-0" />
+            <span className="text-cream text-[13px] font-black uppercase tracking-[0.22em] group-hover:text-gold transition-colors duration-300">
+              Andini Syifa
+            </span>
           </a>
 
           {/* Desktop nav */}

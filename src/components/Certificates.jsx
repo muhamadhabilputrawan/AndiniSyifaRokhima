@@ -118,6 +118,7 @@ function CertCard({ cert, index, onClick }) {
           alt={cert.title}
           className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
           loading="lazy"
+          decoding="async"
         />
         {/* Corner accents */}
         <div className="absolute top-2 left-2 w-4 h-4 border-t border-l border-white/20 group-hover:border-gold/40 transition-colors" />

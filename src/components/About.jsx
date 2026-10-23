@@ -86,7 +86,9 @@ export default function About() {
               <img src={aboutPhoto}
                 alt="Andini Syifa Rokhima"
                 className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
-                style={{ objectPosition: '50% 20%' }} />
+                style={{ objectPosition: '50% 20%' }}
+                loading="lazy"
+                decoding="async" />
               <div className="absolute inset-0 bg-gradient-to-t from-dark/75 to-transparent" />
               <div className="absolute bottom-0 left-0 right-0 p-7">
                 {/* <div className="label-tag mb-2">{personalInfo.major}</div> */}
