@@ -315,9 +315,9 @@ export const galleryImages = [
     imageKey: 'kegiatan3',
     category: 'Prestasi',
     tag: 'Dispora Cup Bogor',
-    title: 'Penghargaan Medali Emas Silat',
-    caption: 'Penerimaan medali emas kategori tanding pemula pra-remaja pada Kejuaraan Pencak Silat Dispora Cup Kota Bogor.',
-    alt: 'Penghargaan Lomba Silat Dispora Cup',
+    title: 'Penghargaan Kejuaraan Silat',
+    caption: 'Penerimaan penghargaan pada Kejuaraan Pencak Silat Dispora Cup Kota Bogor.',
+    alt: 'Penghargaan Kejuaraan Silat',
     date: '2025',
   },
   {
