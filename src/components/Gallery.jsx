@@ -29,7 +29,7 @@ const kegiatanImages = {
 function Lightbox({ image, images, onClose, onSelect }) {
   if (!image) return null;
 
-  const currentIndex = images.findIndex(item => item.id === image.id);
+  const currentIndex = images.findIndex((item) => item.id === image.id);
   const total = images.length;
   const currentItem = currentIndex >= 0 ? images[currentIndex] : image;
   const imgSrc = kegiatanImages[currentItem.imageKey];
@@ -77,7 +77,7 @@ function Lightbox({ image, images, onClose, onSelect }) {
       >
         {/* Top bar */}
         <div
-          onClick={e => e.stopPropagation()}
+          onClick={(e) => e.stopPropagation()}
           className="flex items-center justify-between pb-3 border-b border-white/10 w-full max-w-5xl mx-auto"
         >
           <div className="flex items-center gap-3">
@@ -101,7 +101,7 @@ function Lightbox({ image, images, onClose, onSelect }) {
 
         {/* Center: Image & Navigation */}
         <div
-          onClick={e => e.stopPropagation()}
+          onClick={(e) => e.stopPropagation()}
           className="relative flex-1 flex items-center justify-center my-4 w-full max-w-5xl mx-auto overflow-hidden"
         >
           {/* Prev Button Desktop */}
@@ -135,7 +135,7 @@ function Lightbox({ image, images, onClose, onSelect }) {
 
         {/* Bottom bar / Info & Mobile Controls */}
         <div
-          onClick={e => e.stopPropagation()}
+          onClick={(e) => e.stopPropagation()}
           className="w-full max-w-5xl mx-auto pt-3 border-t border-white/10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
         >
           <div className="space-y-1">
@@ -171,8 +171,8 @@ function Lightbox({ image, images, onClose, onSelect }) {
   );
 }
 
-/* ── Individual Gallery Item Card ── */
-function GalleryCard({ item, index, onClick }) {
+/* ── Individual Mosaic Tile (Interactive: Grayscale -> Bright + Text on hover/tap) ── */
+function GalleryTile({ item, index, isActive, onClick }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-40px' });
   const imgSrc = kegiatanImages[item.imageKey];
@@ -180,67 +180,90 @@ function GalleryCard({ item, index, onClick }) {
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 15 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.45, delay: (index % 3) * 0.08, ease: 'easeOut' }}
+      transition={{ duration: 0.45, delay: (index % 3) * 0.07, ease: 'easeOut' }}
       onClick={() => onClick(item)}
-      className="group relative flex flex-col bg-dark3 border border-white/10 hover:border-gold/60 transition-colors duration-300 cursor-pointer overflow-hidden shadow-md"
+      className={`group relative aspect-square overflow-hidden bg-dark3 border transition-all duration-300 cursor-pointer select-none ${
+        isActive
+          ? 'border-gold shadow-xl shadow-gold/15'
+          : 'border-white/10 hover:border-gold/70'
+      }`}
     >
-      {/* Top Gold Line Accent */}
-      <div className="absolute top-0 inset-x-0 h-[2px] bg-gold scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left z-20 pointer-events-none" />
+      {/* Photo with smooth Grayscale -> Color ("terang") transition */}
+      <img
+        src={imgSrc}
+        alt={item.alt || item.title}
+        className={`w-full h-full object-cover transition-all duration-500 ease-out group-hover:scale-105 ${
+          isActive
+            ? 'grayscale-0 brightness-105 opacity-100 scale-105'
+            : 'grayscale opacity-80 brightness-90 contrast-[1.05] group-hover:grayscale-0 group-hover:opacity-100 group-hover:brightness-105'
+        }`}
+        loading="lazy"
+        decoding="async"
+      />
 
-      {/* Decorative Corner Accents */}
-      <div className="absolute top-2.5 left-2.5 w-3 h-3 border-t border-l border-white/25 group-hover:border-gold/70 transition-colors z-20 pointer-events-none" />
-      <div className="absolute top-2.5 right-2.5 w-3 h-3 border-t border-r border-white/25 group-hover:border-gold/70 transition-colors z-20 pointer-events-none" />
-      <div className="absolute bottom-2.5 left-2.5 w-3 h-3 border-b border-l border-white/25 group-hover:border-gold/70 transition-colors z-20 pointer-events-none" />
-      <div className="absolute bottom-2.5 right-2.5 w-3 h-3 border-b border-r border-white/25 group-hover:border-gold/70 transition-colors z-20 pointer-events-none" />
+      {/* Subtle idle index badge (fades out when hovered/active) */}
+      <div
+        className={`absolute top-2.5 right-2.5 px-2 py-0.5 bg-dark/80 text-cream/45 text-[10px] font-mono tracking-widest border border-white/10 transition-opacity duration-300 pointer-events-none z-10 ${
+          isActive ? 'opacity-0' : 'group-hover:opacity-0'
+        }`}
+      >
+        #{String(item.id).padStart(2, '0')}
+      </div>
 
-      {/* Image Container with 4:3 Proportion */}
-      <div className="relative aspect-[4/3] w-full overflow-hidden bg-dark">
-        <img
-          src={imgSrc}
-          alt={item.alt || item.title}
-          className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
-          loading="lazy"
-          decoding="async"
-        />
+      {/* Dark Ambient Scrim (appears on hover or active tap) */}
+      <div
+        className={`absolute inset-0 bg-gradient-to-t from-dark/95 via-dark/55 to-transparent transition-opacity duration-300 pointer-events-none z-10 ${
+          isActive ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'
+        }`}
+      />
 
-        {/* Ambient Gradient Scrim */}
-        <div className="absolute inset-0 bg-gradient-to-t from-dark via-dark/45 to-transparent opacity-85 group-hover:opacity-75 transition-opacity duration-300" />
-
-        {/* Badges in Top Bar */}
-        <div className="absolute top-3 inset-x-3 flex items-center justify-between z-10 pointer-events-none">
-          <span className="px-2.5 py-1 text-[10px] font-black tracking-widest text-gold bg-dark/85 border border-white/15">
-            #{String(item.id).padStart(2, '0')}
-          </span>
-          <span className="px-2.5 py-1 text-[10px] font-bold tracking-wider uppercase text-cream/90 bg-dark/85 border border-white/15">
+      {/* Editorial Content Overlay ("ada tulisannya") */}
+      <div
+        className={`absolute inset-0 p-3 sm:p-4 md:p-5 flex flex-col justify-between transition-all duration-300 pointer-events-none z-20 ${
+          isActive
+            ? 'opacity-100 translate-y-0'
+            : 'opacity-0 translate-y-3 group-hover:opacity-100 group-hover:translate-y-0'
+        }`}
+      >
+        {/* Top Badges */}
+        <div className="flex items-center justify-between gap-2">
+          <span className="px-2 py-0.5 bg-gold text-dark text-[9px] sm:text-[10px] font-black uppercase tracking-wider shadow-sm">
             {item.category}
           </span>
+          <span className="px-2 py-0.5 bg-dark/85 text-gold border border-gold/40 text-[9px] sm:text-[10px] font-mono font-bold tracking-widest">
+            #{String(item.id).padStart(2, '0')}
+          </span>
         </div>
 
-        {/* Hover Zoom Pill */}
-        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 pointer-events-none">
-          <div className="px-4 py-2 bg-dark/90 border border-gold/70 text-gold text-[11px] font-bold uppercase tracking-widest flex items-center gap-2 shadow-xl translate-y-1 group-hover:translate-y-0 transition-transform duration-300">
-            <span>Perbesar Foto</span>
-            <span className="text-sm">↗</span>
-          </div>
-        </div>
-
-        {/* Bottom Content Area (Without Year) */}
-        <div className="absolute bottom-0 inset-x-0 p-4 sm:p-5 flex flex-col gap-1 z-10">
-          <span className="text-[10px] font-black uppercase tracking-[0.2em] text-gold">
+        {/* Bottom Details */}
+        <div className="flex flex-col gap-1">
+          <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-[0.18em] text-gold drop-shadow-sm">
             {item.tag}
           </span>
 
-          <h3 className="text-cream text-[14px] sm:text-[15px] font-bold uppercase tracking-wide leading-snug group-hover:text-gold transition-colors duration-200 line-clamp-1">
+          <h3 className="text-cream text-[13px] sm:text-[14px] md:text-[15px] font-bold uppercase tracking-wide leading-snug drop-shadow-md line-clamp-2">
             {item.title || item.caption}
           </h3>
 
-          <p className="text-[12px] font-medium text-cream/70 line-clamp-1 group-hover:text-cream/90 transition-colors duration-200">
+          <p className="text-[11px] sm:text-[12px] text-cream/80 line-clamp-2 leading-relaxed drop-shadow hidden sm:block">
             {item.caption}
           </p>
+
+          <div className="flex items-center gap-1.5 text-gold text-[10px] sm:text-[11px] font-bold uppercase tracking-widest mt-1">
+            <span>Perbesar Foto</span>
+            <span className="text-xs">↗</span>
+          </div>
         </div>
       </div>
+
+      {/* Decorative Gold Accent on active/hover */}
+      <div
+        className={`absolute top-0 inset-x-0 h-[2px] bg-gold transition-transform duration-300 origin-left z-30 pointer-events-none ${
+          isActive ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
+        }`}
+      />
     </motion.div>
   );
 }
@@ -248,8 +271,24 @@ function GalleryCard({ item, index, onClick }) {
 /* ── Main Gallery Section ── */
 export default function Gallery() {
   const [selected, setSelected] = useState(null);
+  const [activeId, setActiveId] = useState(null);
   const ref = useRef(null);
   const inView = useInView(ref, { once: true, margin: '-60px' });
+
+  // Handle tile interaction (support both desktop mouse hover and mobile tap)
+  const handleTileClick = (item) => {
+    // If desktop (mouse hover available) -> open Lightbox directly
+    if (window.matchMedia && window.matchMedia('(hover: hover)').matches) {
+      setSelected(item);
+    } else {
+      // On touch device: first tap activates (bright + shows text), second tap opens lightbox
+      if (activeId === item.id) {
+        setSelected(item);
+      } else {
+        setActiveId(item.id);
+      }
+    }
+  };
 
   return (
     <section id="gallery" className="bg-dark2 relative border-t border-white/8" ref={ref}>
@@ -263,7 +302,7 @@ export default function Gallery() {
 
       <div className="site-px py-16 lg:py-24">
         {/* Title & Description */}
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12 lg:mb-16">
+        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10 lg:mb-14">
           <motion.h2
             initial={{ opacity: 0, y: 30 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -281,22 +320,23 @@ export default function Gallery() {
             className="max-w-md md:text-right flex flex-col gap-2"
           >
             <p className="body-text text-[15px] sm:text-[16px] text-cream/80">
-              Dokumentasi nyata kegiatan kepemimpinan organisasi, praktik kejuruan MPLB, dan dedikasi pembelajaran.
+              Dokumentasi nyata kegiatan kepemimpinan organisasi, praktik kejuruan MPLB, dan prestasi kejuaraan.
             </p>
-            <span className="text-[12px] font-bold uppercase tracking-widest text-gold/75">
-              Klik foto untuk melihat resolusi penuh & detail kegiatan
+            <span className="text-[12px] font-bold uppercase tracking-widest text-gold/85">
+              Sentuh atau arahkan kursor pada foto untuk melihat detail
             </span>
           </motion.div>
         </div>
 
-        {/* Gallery Grid: 1 col on mobile, 2 cols on tablet, 3 cols on desktop */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 lg:gap-7">
+        {/* 3x3 Mosaic Grid (Clean Square Tiles) */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3 lg:gap-3.5">
           {galleryImages.map((img, i) => (
-            <GalleryCard
+            <GalleryTile
               key={img.id}
               item={img}
               index={i}
-              onClick={setSelected}
+              isActive={activeId === img.id}
+              onClick={handleTileClick}
             />
           ))}
         </div>
